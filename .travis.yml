@@ -1,0 +1,14 @@
+notifications:
+  email: false
+
+deploy:
+  provider: releases
+  api_key:
+    secure: 1GAb5SMfSrFVj1qkO6Eq5RKtuEhXz5axCbk8640OQhbP6AX6z1gs1S1P8EaKYMGolt03OkfgffN8jOH/k9xxy0hDcqHo603e1GzAunlyuLPUV2XFLEmREe18smeu6BE7meOCwdUEa09PVm97/PdFaSqQrVPdt1NmB6Xxps/VLxePpfftzDSopu4fQtv5EvgfqqcicC0z8bKRdQcwa85gzW2gRP5XuZVi9ekOQ2N+2vGd1ZYvLmtyJJHFE5IQzjRTuJUERs4nvi9kFs7wKptKR8vlXy7v8Agh6296U/qNoDZaVibJoQIyVFFvTkVe2xzS7zxlGmPCqSAVxD6VCu1u9S45/NbrLy/afBQyx4lKVkMbmWu4pyG9c5nJdhOj/XGT7l40ktuEFdLc78TOgCf3j+DSb/7t/uO1DJsuhE05K0N/9cQL7Ic2tcrgCOq2k+O3B5xFo6cWHa4ATiZP+0p3YuDkYb4V3lYiy2SsL9gxhMWUfO8N4/iAmQDiqkpBkOJw/vqnnZIQkdwvFaWqmJsZ9j5rCPx1P6QT3U4K88oLrc4Bl277026YRa5WLWycH6bAdG5zZVSRItF3FCRVJdFs+0+clQbJdLFeFZ5/VZO+Jsg31xUIu/4EFfIITqEiCKzqktzwYchsFFQB//kyv0AqmUfiik6LJ+UBoxiXbgun5+E=
+  file: build/sqweb-sdk-php-legacy.zip
+  on:
+    repo: SQweb-team/SQweb-SDK-PHP-Legacy
+    tags: true
+
+after_deploy:
+- "./after_deploy.sh"
