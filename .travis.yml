@@ -1,3 +1,25 @@
+language:
+  - php
+
+php:
+  - 5.5
+
+cache:
+  directories:
+    - vendor
+
+before_script:
+  - composer self-update
+  - composer install --ignore-platform-reqs
+  - phpenv rehash
+  - vendor/bin/phpcs -i
+
+script:
+  - vendor/bin/parallel-lint src
+  - vendor/bin/phpcs --standard=PSR2 src/ --extensions=php
+  - vendor/bin/phpcpd src/
+  - "./build.sh"
+
 notifications:
   email: false
 
