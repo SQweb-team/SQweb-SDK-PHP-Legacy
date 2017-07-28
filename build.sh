@@ -15,8 +15,10 @@ cp -R src/ $BUILD/src/
 # Copy Documentation
 cp README.md CHANGELOG.md $BUILD
 
-# Zipping the build
+echo "Zipping the build..."
 pushd build; zip -r -X sqweb-sdk-php-legacy.zip sqweb-sdk-php-legacy; popd
 
-# Cleaning up the build files
+echo "Cleaning up the build files..."
 rm -rf $BUILD/*
+rmdir $BUILD
+echo "Done."
