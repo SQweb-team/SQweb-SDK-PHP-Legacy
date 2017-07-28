@@ -32,14 +32,15 @@ Composer [requires PHP 5.3.2+ to run](https://getcomposer.org/doc/00-intro.md#sy
     |   |-- src/
     |   |   |-- init.php
     |   |   |-- SQweb.php
-    |-- sqweb_config.php
+    |-- sqweb.config
     ```
 
 3. In `sqweb.config`, paste the following configuration:
 
-    ```php
+    ```text
     SQW_ID_SITE=YOUR_WEBSITE_ID
     SQW_SITENAME=YOUR_WEBSITE_NAME
+    SQW_LANG=en
     ```
 
     **Change `SQW_ID_SITE` with your website ID and `SQW_SITENAME` with the name to show on the large Multipass button**.
@@ -50,7 +51,7 @@ For additional settings, see "[Options](#options)" below.
 
 ### 1. Initializing the SDK
 
-You have to initialise the SQweb variable on the pages where you need it with this piece of code:
+First, you have to initialise SQweb variable on the pages where you wish to use it.
 
 ```php
 include_once "whereYouInstalled/src/init.php";
@@ -58,7 +59,7 @@ include_once "whereYouInstalled/src/init.php";
 
 ### 2. Tagging your pages
 
-This function outputs the SQweb JavaScript tag. Insert it before the closing `</body>` tag in your HTML.
+Then, you need to add our JavaScript tag to your pages. This function will do it for you, and should be inserted before the closing `</body>` tag in your HTML.
 
 ```php
 $sqweb->script();
@@ -136,16 +137,14 @@ $sqweb = new SQweb;
 $sqweb->lockingBlock();
 ```
 
-Will display the block.
-
-We recommand you to use with our other blocking function like:
+We recommend that you use it with our other blocking function :
 
 ```php
 if ($sqweb->waitToDisplay('15/09/16', 'd/m/y', 2)) {
     // The content here will appear 2 days after the publication date for non paying users.
 } else {
-    // Here you can put content that free users will see before the content above is available for all.
-    // $sqweb->lockingBlock();
+    // Here you can put content that free users will see until the content above is available for all.
+    $sqweb->lockingBlock();
 }
 ```
 
@@ -169,7 +168,7 @@ For instance:
 echo $sqweb->transparent('one two three four', 50);
 ```
 
-Will display for free users:
+Free users will see:
 
 ```text
 one two
@@ -192,24 +191,16 @@ Example:
 if ($sqweb->waitToDisplay('15/09/16', 'd/m/y', 2)) {
     // The content here will appear 2 days after the publication date for non paying users.
 } else {
-    // Here you can put content that free users will see before the content above is available for all.
+    // Here you can put content that free users will see until the content above is available for all.
 }
 ```
 
 #### Limit the number of articles free users can read per day
 
-```php
-/*
- * @param int $limitation  Number of articles a free user can see.
- */
-
-function limitArticle($limitation = 0) { ... }
-```
-
 For instance, if I want to display only 5 articles to free users:
 
 ```php
-if ($sqweb->limitArticle(5) == true) {
+if ($sqweb->limitArticle(5) === true) {
     echo "This is my article";
 } else {
     echo "Sorry, you reached the limit of pages you can see today, come back tomorrow or subscribe to Multipass to get unlimited articles !";
@@ -233,6 +224,16 @@ Unless otherwise noted, these options default to `false`. You can set them in yo
 ## Known Issues
 
 If you change the value of `SQW_DWIDE` after initial deployment, your users will have to log in again since their auth cookie will no longer be valid.
+
+## Troubleshooting
+
+### I am not seeing the Multipass button
+
+Please make sure you have properly [initialized the SDK](#1-initializing-the-sdk) and [tagged your pages](#2-tagging-your-pages). Mind the position of the include and tag.
+
+### I can see the Multipass button, but I cannot login
+
+The authentication requires cookies, which require [fully qualified domain names](https://en.wikipedia.org/wiki/Fully_qualified_domain_name). If you are testing on localhost or an IP, the authentication will succeed but won't be able to save a cookie in your browser.
 
 ## Contributing
 
@@ -260,7 +261,7 @@ If you discover a security vulnerability within SQweb or this plugin, please sen
 
 Copyright (C) 2015-2017 – SQweb
 
-This program is free software ; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation ; either version 3 of the License, or (at your option) any later version.
+This program is free software ; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation ; either version 3 of the License, or any later version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY ; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details
 
